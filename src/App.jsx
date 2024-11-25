@@ -10,7 +10,6 @@ import Subscribe from "./components/Subscribe/Subscribe";
 import Testimonials from "./components/Testimonials/Testimonials";
 import Footer from "./components/Footer/Footer";
 import Popup from "./components/Popup/Popup";
-import { Outlet } from "react-router-dom";
 import UserContextProvider from "./context/UserContextProvider";
 
 export default function App() {
@@ -31,18 +30,17 @@ export default function App() {
 
   return (
     <UserContextProvider>
-    <div className="bg-white dark:bg-gray-900 dark:text-white duration-200">
-      <Navbar handleOrderPopup={handleOrderPopup} />
-<Hero handleOrderPopup={handleOrderPopup} />
-<Products />
-<TopProducts handleOrderPopup={handleOrderPopup} />
-<Banner />
-<Subscribe />
-<Testimonials />
-<Footer />
-<Popup orderPopup={orderPopup} setOrderPopup={setOrderPopup} />
-
-    </div>
+      <div className="bg-white dark:bg-gray-900 dark:text-white duration-200">
+        <Navbar handleOrderPopup={handleOrderPopup} />
+        <Hero handleOrderPopup={handleOrderPopup} />
+        <Products />
+        <TopProducts handleOrderPopup={handleOrderPopup} />
+        <Banner />
+        <Subscribe />
+        <Testimonials />
+        <Footer />
+        <Popup orderPopup={orderPopup} setOrderPopup={setOrderPopup} />
+      </div>
     </UserContextProvider>
   );
 };

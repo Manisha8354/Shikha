@@ -31,8 +31,8 @@ const CategoryFilterPage = () => {
           }
           return item;
         })
-        let responce = final.filter((item)=>{
-           return (item.productCategory == categoryName) && (item.productSubCategory == subcategoryName)
+        let responce = final.filter((item) => {
+          return (item.productCategory == categoryName) && (item.productSubCategory == subcategoryName)
         })
         console.log(responce)
         setData(responce);
@@ -65,14 +65,14 @@ const CategoryFilterPage = () => {
   async function getAllProfile() {
     try {
       let result = await axios.get('https://actl.co.in/sikha/getProduct');
-      if(result){
+      if (result) {
         const final = result.data.map(item => {
           if ((typeof item.productImages === 'string') && (typeof item.productSize === 'string')) {
-            return { ...item, productImages: JSON.parse(item.productImages),productSize: JSON.parse(item.productSize)  };
-          }   
-           return item;
+            return { ...item, productImages: JSON.parse(item.productImages), productSize: JSON.parse(item.productSize) };
+          }
+          return item;
         });
-       setAllData(final)
+        setAllData(final)
       }
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -86,25 +86,25 @@ const CategoryFilterPage = () => {
   return (
     <div className="container mx-auto p-4">
       {/* Main product page wrapper */}
- 
+
 
       {/* Additional Information Section */}
       <div className="mt-8">
         <h2 className="text-xl md:text-2xl font-semibold mb-4">All {categoryName}, {subcategoryName} Product</h2>
-      <div className='flex gap-8 flex-wrap'>
-      {data && data.map((product) => (
-          <Link key={product.id} className="border w-[300px] p-4 rounded-lg" to={`/productpage/${product.productCode}`}>
-            <Swiper
-        modules={[Navigation, Pagination, Autoplay]}
-        spaceBetween={50}
-        slidesPerView={1}
-        navigation
-        pagination={{ clickable: true }}
-        autoplay={{ delay: 2000 }}
-        loop={true}
-      >
-         <style>
-    {`
+        <div className='flex gap-8 flex-wrap'>
+          {data && data.map((product) => (
+            <Link key={product.id} className="border w-[300px] p-4 rounded-lg" to={`/productpage/${product.productCode}`}>
+              <Swiper
+                modules={[Navigation, Pagination, Autoplay]}
+                spaceBetween={50}
+                slidesPerView={1}
+                navigation
+                pagination={{ clickable: true }}
+                autoplay={{ delay: 2000 }}
+                loop={true}
+              >
+                <style>
+                  {`
       .swiper-button-next, .swiper-button-prev {
         color: gray; /* Your desired color */
       }
@@ -112,23 +112,23 @@ const CategoryFilterPage = () => {
         font-size: 20px; /* Optional: Adjust the arrow size */
       }
     `}
-  </style>
-        {product.productImages.map(slide => (
-          <SwiperSlide key={slide.id}>
-            <img
-              src={`https://actl.co.in/sikha_uploads/${slide}`}
-              alt={`Slide ${slide.id}`}
-              className="w-full h-72 object-fit"
-            />
-          </SwiperSlide>
-        ))}
-      </Swiper>
-            <h2 className="text-lg font-semibold">{product.productTitle}</h2>
-            <p className="text-red-500">{Math.ceil(product.productPrice -((product.productPrice * product.productDiscount)/100))} Rs.</p>
-            <p className="line-through text-gray-400">{product.productPrice} Rs.</p>
-          </Link>
-        ))}
-      </div>
+                </style>
+                {product.productImages.map(slide => (
+                  <SwiperSlide key={slide.id}>
+                    <img
+                      src={`https://actl.co.in/sikha_uploads/${slide}`}
+                      alt={`Slide ${slide.id}`}
+                      className="w-full h-72 object-fit"
+                    />
+                  </SwiperSlide>
+                ))}
+              </Swiper>
+              <h2 className="text-lg font-semibold">{product.productTitle}</h2>
+              <p className="text-red-500">{Math.ceil(product.productPrice - ((product.productPrice * product.productDiscount) / 100))} Rs.</p>
+              <p className="line-through text-gray-400">{product.productPrice} Rs.</p>
+            </Link>
+          ))}
+        </div>
       </div>
 
       {/* Image Modal */}

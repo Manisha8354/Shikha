@@ -20,6 +20,11 @@ export default function Layout() {
     });
     AOS.refresh();
   }, []);
+
+
+  console.log('Environment:', import.meta.env.VITE_ENV);
+  console.log('API URL:', import.meta.env.VITE_API_URL);
+  
   return (
     <UserContextProvider>
       <Navbar/>

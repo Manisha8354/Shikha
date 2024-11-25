@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react'
 import UserContext from './UserContext'
 import axios from 'axios'
 
+const API_URL = import.meta.env.VITE_API_URL
+
 export default function UserContextProvider({children}) {
     let [cartList, setCartList] = useState('')
     let [flag, setFlag] = useState(false)
@@ -13,6 +15,8 @@ export default function UserContextProvider({children}) {
         isAuthenized : !!localStorage.getItem('token'),
         username: ''
     })
+
+
     // let [adminAuth, setAdminAuth] = useState({
     //     adminToken: localStorage.getItem('adminToken') || null,
     //     isAuthenized : !!localStorage.getItem('adminToken'),
@@ -22,10 +26,10 @@ export default function UserContextProvider({children}) {
     let userLogin = async (email, password)=>{
         // console.log(email)
         // console.log(password)
-    let result = await axios.post('https://actl.co.in/sikha/userlogin', {email, password})
+    let result = await axios.post(`${API_URL}/userlogin`, {email, password})
     // console.log(result)
     if(result.data.isMatch){
-        localStorage.setItem('token', result.data.token)
+        localStorage.setItem('token', result.data.token);
         setAuth({token:result.data.token, isAuthenized: true, username: result.data.result[0] })
         setFlag(true)
         return true
@@ -60,7 +64,7 @@ export default function UserContextProvider({children}) {
        try {
         let token = localStorage.getItem('token')
         if(token){
-            let result = await axios.post('https://actl.co.in/sikha/userverify',
+            let result = await axios.post(`${API_URL}/userverify`,
                 {},
                 {
                   headers: { 'Authorization': `Bearer ${token}` },

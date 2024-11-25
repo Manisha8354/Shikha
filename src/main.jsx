@@ -51,54 +51,54 @@ import EditPopup from "./dashboard/EditPopup.jsx";
 let router = createBrowserRouter(
   createRoutesFromElements(
     <>
-    {/* <Route path="/" element={<App/>}/>
+      {/* <Route path="/" element={<App/>}/>
     <Route path="/about" element={<AboutUs/>}/>
     <Route path="/return" element={<Returnpolicy/>}/>
     <Route path="/shipping" element={<Shipping/>}/>
     <Route path="/contact" element={<Contact/>}/> */}
-    
 
-        <Route path="/" element={<Layout/>}>
-        <Route path="" element={<Home/>}/>
-        <Route path='/productpage/:code' element={<ProductPage/>}/>
-        <Route path='/view/:categoryName/:subcategoryName' element={<CategoryFilterPage/>}/>
-        <Route path='/view/:categoryName' element={<NavbarFilter/>}/>
-        <Route path='/find/:inp' element={<FindProduct/>}/>
+
+      <Route path="/" element={<Layout />}>
+        <Route path="" element={<Home />} />
+        <Route path='/productpage/:code' element={<ProductPage />} />
+        <Route path='/view/:categoryName/:subcategoryName' element={<CategoryFilterPage />} />
+        <Route path='/view/:categoryName' element={<NavbarFilter />} />
+        <Route path='/find/:inp' element={<FindProduct />} />
         <Route path='/cart' element={<Protected>
-          <Cart/>
-        </Protected>}/>
-        <Route path='/signinsignup' element={<SignInSignUpModal/>}/>
-        <Route path='/checkout' element={<Checkout/>}/>
-        <Route path='/yourorder' element={<YourOrder/>}/>
-        <Route path='/wishlist' element={<Wishlist/>}/>
-        <Route path='/payment_seccess' element={<PaymentSuccess/>}/>
-        <Route path="/about" element = {<About/>}/>
-        <Route path="/contact" element={<Contact/>}/>
-        <Route path="/privacy" element={<Privacy/>}/>
-        <Route path="/terms" element={<Terms/>}/>
-        <Route  path="/shipping" element={<Shipping/>}/>
-        <Route path="/return" element={<Return/>}/>
-       
-        </Route>
+          <Cart />
+        </Protected>} />
+        <Route path='/signinsignup' element={<SignInSignUpModal />} />
+        <Route path='/checkout' element={<Checkout />} />
+        <Route path='/yourorder' element={<YourOrder />} />
+        <Route path='/wishlist' element={<Wishlist />} />
+        <Route path='/payment_seccess' element={<PaymentSuccess />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/privacy" element={<Privacy />} />
+        <Route path="/terms" element={<Terms />} />
+        <Route path="/shipping" element={<Shipping />} />
+        <Route path="/return" element={<Return />} />
 
-    <Route path='/admin' element={<AdminApp/>}>
-    <Route path='/admin' element={<AdminProtected><DashboardShow/></AdminProtected>}/>
-    <Route path='/admin/category' element={<Category/>}/>
-    <Route path='/admin/users' element={<Users/>}/>
-    <Route path='/admin/newcategory' element={<AddCategory/>}/>
-    <Route path='/admin/newsubcategory' element={<AddSubCategory/>}/>
-    <Route path='/admin/subcategory' element={<SubCategory/>}/>
-    <Route path='/admin/product' element={<Product/>}/>
-    <Route path='/admin/newproduct' element={<AddProduct/>}/>
-    <Route path='/admin/view/:id' element={<ViewProduct/>}/>
-    <Route path='/admin/update/:id' element={<UpdateProduct/>}/>
-    <Route path='/admin/banner' element={<Banner/>}/>
-    <Route path='/admin/newbanner' element={<AddBanner/>}/>
-    <Route path='/admin/orders' element={<Orders/>}/>
-    <Route path='/admin/adminlogin' element={<AdminLogin/>}/>
-    <Route path='/admin/popup' element={<AddPopup/>}/>
-    <Route path='/admin/editpopup/:id' element={<EditPopup/>}/>
-    </Route>
+      </Route>
+
+      <Route path='/admin' element={<AdminApp />}>
+        <Route path='/admin' element={<AdminProtected><DashboardShow /></AdminProtected>} />
+        <Route path='/admin/category' element={<Category />} />
+        <Route path='/admin/users' element={<Users />} />
+        <Route path='/admin/newcategory' element={<AddCategory />} />
+        <Route path='/admin/newsubcategory' element={<AddSubCategory />} />
+        <Route path='/admin/subcategory' element={<SubCategory />} />
+        <Route path='/admin/product' element={<Product />} />
+        <Route path='/admin/newproduct' element={<AddProduct />} />
+        <Route path='/admin/view/:id' element={<ViewProduct />} />
+        <Route path='/admin/update/:id' element={<UpdateProduct />} />
+        <Route path='/admin/banner' element={<Banner />} />
+        <Route path='/admin/newbanner' element={<AddBanner />} />
+        <Route path='/admin/orders' element={<Orders />} />
+        <Route path='/admin/adminlogin' element={<AdminLogin />} />
+        <Route path='/admin/popup' element={<AddPopup />} />
+        <Route path='/admin/editpopup/:id' element={<EditPopup />} />
+      </Route>
     </>
   )
 )

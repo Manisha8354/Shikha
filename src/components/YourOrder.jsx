@@ -4,65 +4,65 @@ import axios from 'axios'
 import { Link, useNavigate } from 'react-router-dom'
 
 export default function YourOrder() {
-  let {auth} = useContext(UserContext)
+  let { auth } = useContext(UserContext)
   let [data, setData] = useState([])
   let [quantities, setQuantities] = useState({})
   let navigation = useNavigate()
 
-  async function getData(){
-      if(auth.username){
-        let user = auth.username.email
-        let result = await axios.get(`https://actl.co.in/sikha/getOrderByEmail/${user}`)
-        setData(result.data)
-      }
+  async function getData() {
+    if (auth.username) {
+      let user = auth.username.email
+      let result = await axios.get(`https://actl.co.in/sikha/getOrderByEmail/${user}`)
+      setData(result.data)
+    }
   }
 
-  useEffect(()=>{
-      getData()
-  },[auth.username])
-// console.log(data)
-//   async function  deleteCart(id) {
-//     let flag = confirm("are u sure to delete")
-//     if(flag){
-//         let user = auth.username.email.split('@')[0]+'_cart'
-//     await axios.delete(`https://actl.co.in/sikha/deleteCart/${id}/${user}`)
-//     getData()
-//     }
-//   }
+  useEffect(() => {
+    getData()
+  }, [auth.username])
+  // console.log(data)
+  //   async function  deleteCart(id) {
+  //     let flag = confirm("are u sure to delete")
+  //     if(flag){
+  //         let user = auth.username.email.split('@')[0]+'_cart'
+  //     await axios.delete(`https://actl.co.in/sikha/deleteCart/${id}/${user}`)
+  //     getData()
+  //     }
+  //   }
 
-//   // Handle the increment and decrement of quantity
-//   const handleQuantityChange = (id, delta) => {
-//     setQuantities(prevQuantities => {
-//       const updatedQuantities = {...prevQuantities}
-//       if(updatedQuantities[id] + delta > 0) {
-//         updatedQuantities[id] += delta
-//       }
-//       return updatedQuantities
-//     })
-//   }
+  //   // Handle the increment and decrement of quantity
+  //   const handleQuantityChange = (id, delta) => {
+  //     setQuantities(prevQuantities => {
+  //       const updatedQuantities = {...prevQuantities}
+  //       if(updatedQuantities[id] + delta > 0) {
+  //         updatedQuantities[id] += delta
+  //       }
+  //       return updatedQuantities
+  //     })
+  //   }
 
-//   // Calculate totals
-//   let delievyCharge = 100
-//   let price = data.reduce((x , y) => x + JSON.parse(y.productPrice) * quantities[y.id], 0) || ''
-//   let afterDiscount = data.reduce((x , y) => x + JSON.parse(Math.ceil((y.productPrice - (y.productPrice * y.productDiscount) / 100)) * quantities[y.id]), 0) + delievyCharge || ''
-//   let saving = data.reduce((x , y) => x + JSON.parse(Math.ceil((y.productPrice * y.productDiscount) / 100) * quantities[y.id]), 0) || ''
+  //   // Calculate totals
+  //   let delievyCharge = 100
+  //   let price = data.reduce((x , y) => x + JSON.parse(y.productPrice) * quantities[y.id], 0) || ''
+  //   let afterDiscount = data.reduce((x , y) => x + JSON.parse(Math.ceil((y.productPrice - (y.productPrice * y.productDiscount) / 100)) * quantities[y.id]), 0) + delievyCharge || ''
+  //   let saving = data.reduce((x , y) => x + JSON.parse(Math.ceil((y.productPrice * y.productDiscount) / 100) * quantities[y.id]), 0) || ''
 
-//   // Handle checkout
-//   const handleCheckout = async () => {
-//     // Prepare the cart data with updated quantities
-//     const cartData = data.map(item => ({
-//       productId: item.id,
-//       productTitle: item.productTitle,
-//       productPrice: item.productPrice,
-//       productDiscount: item.productDiscount,
-//       productImages: item.productImages,
-//       quantity: quantities[item.id],  // Include updated quantity
-//       totalPrice: Math.ceil(item.productPrice - (item.productPrice * item.productDiscount) / 100) * quantities[item.id],  // Calculate the total price for this item
-//     }))
-//    localStorage.setItem('cartData', JSON.stringify(cartData))
-//    navigation('/checkout')
-//   }
-// console.log(data)
+  //   // Handle checkout
+  //   const handleCheckout = async () => {
+  //     // Prepare the cart data with updated quantities
+  //     const cartData = data.map(item => ({
+  //       productId: item.id,
+  //       productTitle: item.productTitle,
+  //       productPrice: item.productPrice,
+  //       productDiscount: item.productDiscount,
+  //       productImages: item.productImages,
+  //       quantity: quantities[item.id],  // Include updated quantity
+  //       totalPrice: Math.ceil(item.productPrice - (item.productPrice * item.productDiscount) / 100) * quantities[item.id],  // Calculate the total price for this item
+  //     }))
+  //    localStorage.setItem('cartData', JSON.stringify(cartData))
+  //    navigation('/checkout')
+  //   }
+  // console.log(data)
   return (
     <div>
       <section class="bg-white py-8 antialiased dummy:bg-gray-900 md:py-16">
@@ -99,11 +99,11 @@ export default function YourOrder() {
                           <p class="text-base font-bold text-gray-900 dummy:text-white">Price:- ₹{item.total_price}</p>
                         </div>
                       </div>
-                          <div>
-                            <img src={item.productImage} alt="" className='w-32'/>
-                          </div>
+                      <div>
+                        <img src={item.productImage} alt="" className='w-32' />
+                      </div>
                       <div class="w-full min-w-0 flex-1 space-y-4 md:order-2 md:max-w-md">
-                        <h1  class="text-base font-medium text-gray-900  dummy:text-white">{item.product_title}</h1>
+                        <h1 class="text-base font-medium text-gray-900  dummy:text-white">{item.product_title}</h1>
 
                         <div class="flex items-center gap-4">
                           {/* <button type="button" class="inline-flex items-center text-sm font-medium text-gray-500 hover:text-gray-900 hover:underline dummy:text-gray-400 dummy:hover:text-white">
