@@ -7,6 +7,7 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import { Navigation, Pagination, Autoplay } from 'swiper/modules';
 import UserContextProvider from '../context/UserContextProvider';
+const API_URL = import.meta.env.VITE_API_URL
 const FindProduct = () => {
   let { inp } = useParams();
   const [data, setData] = useState('');
@@ -18,7 +19,7 @@ const FindProduct = () => {
 
   async function getProfile() {
     try {
-      let result = await axios.get(`https://actl.co.in/sikha/getProduct`);
+      let result = await axios.get(`${API_URL}/getProduct`);
       if (result) {
         let x = '';
         for (let i = 1; i <= result.data[0].productRating; i++) {
@@ -64,7 +65,7 @@ const FindProduct = () => {
 
   async function getAllProfile() {
     try {
-      let result = await axios.get('https://actl.co.in/sikha/getProduct');
+      let result = await axios.get(`${API_URL}/getProduct`);
       if(result){
         const final = result.data.map(item => {
           if (typeof item.productImages === 'string'){
@@ -116,7 +117,7 @@ console.log(data)
         {product.productImages.map(slide => (
           <SwiperSlide key={slide.id}>
             <img
-              src={`https://actl.co.in/sikha_uploads/${slide}`}
+              src={`${API_URL}/sikha_uploads/${slide}`}
               alt={`Slide ${slide.id}`}
               className="w-full h-72 object-fit"
             />

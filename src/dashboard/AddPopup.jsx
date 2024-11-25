@@ -3,13 +3,13 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import AdminNav from './AdminNav';
 import AdminSidebar from './AdminSidebar';
-
+const API_URL = import.meta.env.VITE_API_URL
 export default function AddPopup() {
   const [data, setData] = useState([]);
 
   async function getProfile() {
     try {
-      let result = await axios.get('https://actl.co.in/sikha/viewPopup');
+      let result = await axios.get(`${API_URL}/viewPopup`);
       if(result){
         setData(result.data);
       }
@@ -48,7 +48,7 @@ export default function AddPopup() {
               <td className="py-2 px-4">{index +1}</td>
               <td className="py-2 px-4">{product.heading}</td>
               <td className="py-2 px-4">{product.detail}</td>
-              <td className="py-2 px-4">{product.status}</td>
+              <td className="py-2 px-4">{product?.status}</td>
               <td className="py-2 px-4">
                 <div className="flex space-x-2">
                 

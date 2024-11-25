@@ -3,13 +3,13 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import AdminNav from './AdminNav';
 import AdminSidebar from './AdminSidebar';
-
+const API_URL = import.meta.env.VITE_API_URL
 export default function Banner() {
   const [data, setData] = useState([]);
 
   async function getProfile() {
     try {
-      let result = await axios.get('https://actl.co.in/sikha/getbanner');
+      let result = await axios.get(`${API_URL}/getbanner`);
     //   console.log(result)
       if(result){
         setData(result.data);
@@ -27,7 +27,7 @@ export default function Banner() {
   const handleDelete = async (id) => {
     let flag = confirm("Are you Sure to Delete")
     if(flag){
-     await axios.delete(`https://actl.co.in/sikha/deletebanner/${id}`);
+     await axios.delete(`${API_URL}/deletebanner/${id}`);
      getProfile()
     }
   };
@@ -55,7 +55,7 @@ export default function Banner() {
           {data.map((product, index) => (
             <tr key={index} className="border-t border-gray-200">
               <td className="py-2 px-4">{index +1}</td>
-              <td className="py-2 px-4"><img src={`https://actl.co.in/sikha_uploads/${product.banner}`} alt="" className='w-96'/></td>
+              <td className="py-2 px-4"><img src={`${API_URL}sikha_uploads/${product.banner}`} alt="" className='w-96'/></td>
               <td className="py-2 px-4">{product.productCategory}</td>
               <td className="py-2 px-4">{product.productSubCategory}</td>
               <td className="py-2 px-4">

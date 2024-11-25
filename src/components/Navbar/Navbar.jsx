@@ -7,6 +7,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import UserContext from "../../context/UserContext";
 import axios from "axios";
 import { GiHeartEarrings } from "react-icons/gi";
+const API_URL = import.meta.env.VITE_API_URL
 const Menu = [
   {
     id: 1,
@@ -49,6 +50,7 @@ const DropdownLinks = [
 ];
 
 export default function Navbar({ handleOrderPopup }) {
+  const navigate = useNavigate()
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen); // Toggles dropdown visibility
@@ -61,13 +63,14 @@ export default function Navbar({ handleOrderPopup }) {
     setIsOpen(!isOpen);
   };
 
-  let navigation = useNavigate()
   let { auth, logout } = useContext(UserContext)
   const [inp, setInp] = useState('');
   const [order, setOrder] = useState('');
   const [category, setCategory] = useState([]);
+
   async function getCategory() {
-    let result = await axios.get('https://actl.co.in/sikha/categoryget')
+  
+    let result = await axios.get(`${API_URL}/categoryget`)
     setCategory(result.data)
   }
   useEffect(() => {
@@ -81,12 +84,12 @@ export default function Navbar({ handleOrderPopup }) {
   }, [inp])
   function handlelogout() {
     logout()
-    window.location.reload()
+    navigate('/')
   }
   async function getData() {
     if (auth.username) {
       let user = auth.username.email
-      let result = await axios.get(`https://actl.co.in/sikha/getOrderByEmail/${user}`)
+      let result = await axios.get(`${API_URL}/getOrderByEmail/${user}`)
       setOrder(result.data)
     }
   }
@@ -130,9 +133,9 @@ export default function Navbar({ handleOrderPopup }) {
                 value={inp}
                 onChange={(e) => setInp(e.target.value)}
               />
-             {auth.username ? <div className='flex items-center gap-6'><span className='capatilize text-xl font-bold flex items-center gap-2 text-gray-500'> <FaUser className="text-primary dark:text-white text-2xl cursor-pointer" /> {auth.username.name}</span><button className='p-2 rounded-lg bg-primary text-white font-[600]' onClick={handlelogout}>Logout</button></div> :  <Link to="/signinsignup" className="p-2 text-sm rounded-lg bg-primary text-white font-[600]">
-              Sign In/Sign Up
-            </Link>}
+              {auth.username ? <div className='flex items-center gap-6'><span className='capatilize text-xl font-bold flex items-center gap-2 text-gray-500'> <FaUser className="text-primary dark:text-white text-2xl cursor-pointer" /> {auth.username.name}</span><button className='p-2 rounded-lg bg-primary text-white font-[600]' onClick={handlelogout}>Logout</button></div> : <Link to="/signinsignup" className="p-2 text-sm rounded-lg bg-primary text-white font-[600]">
+                Sign In/Sign Up
+              </Link>}
 
               {/* <FaHeart className="text-secondary dark:text-red-400 text-2xl cursor-pointer" /> */}
             </div>
@@ -178,7 +181,7 @@ export default function Navbar({ handleOrderPopup }) {
           <Link to='/' className="inline-block px-4 hover:text-primary duration-200">Home</Link>
           {category &&
             category.map((item) => (
-              <Link to={`/view/${item.categoryName}`} className="inline-block px-4 hover:text-primary duration-200">{item.categoryName}</Link>
+              <Link to={`/view/${item.categoryName}`} key={item.id.toString()} className="inline-block px-4 hover:text-primary duration-200">{item.categoryName}</Link>
             ))
           }
           <Link to='/about' className="inline-block px-4 hover:text-primary duration-200">About</Link>
@@ -201,9 +204,9 @@ export default function Navbar({ handleOrderPopup }) {
             className="w-full rounded-full border border-gray-300 px-2 py-1 focus:outline-none focus:border-primary dark:border-gray-500 dark:bg-gray-800"
           />
 
-{auth.username ? <div className='flex items-center gap-6'><span className='capatilize text-xl font-bold flex items-center gap-2 text-gray-500'> <FaUser className="text-primary dark:text-white text-2xl cursor-pointer" /> {auth.username.name}</span><button className='p-2 rounded-lg bg-primary text-white font-[600]' onClick={handlelogout}>Logout</button></div> :  <Link to="/signinsignup" className="p-2 text-sm rounded-lg bg-primary text-white font-[600]">
-              Sign In/Sign Up
-            </Link>}
+          {auth.username ? <div className='flex items-center gap-6'><span className='capatilize text-xl font-bold flex items-center gap-2 text-gray-500'> <FaUser className="text-primary dark:text-white text-2xl cursor-pointer" /> {auth.username.name}</span><button className='p-2 rounded-lg bg-primary text-white font-[600]' onClick={handlelogout}>Logout</button></div> : <Link to="/signinsignup" className="p-2 text-sm rounded-lg bg-primary text-white font-[600]">
+            Sign In/Sign Up
+          </Link>}
           <Link
             to='/cart'
             onClick={() => setIsOpen(!isOpen)}

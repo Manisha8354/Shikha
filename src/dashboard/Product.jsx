@@ -3,13 +3,13 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import AdminNav from './AdminNav';
 import AdminSidebar from './AdminSidebar';
-
+const API_URL = import.meta.env.VITE_API_URL
 export default function Product() {
   const [data, setData] = useState([]);
 
   async function getProfile() {
     try {
-      let result = await axios.get('https://actl.co.in/sikha/getProduct');
+      let result = await axios.get(`${API_URL}/getProduct`);
       if(result){
         setData(result.data);
       }
@@ -26,7 +26,7 @@ export default function Product() {
   const handleDelete = async (id) => {
     let flag = confirm("Are you Sure to Delete")
     if(flag){
-     await axios.delete(`https://actl.co.in/sikha/deleteProduct/${id}`);
+     await axios.delete(`${API_URL}/deleteProduct/${id}`);
      getProfile()
     }
   };
@@ -57,7 +57,7 @@ export default function Product() {
         </thead>
         <tbody>
           {data.map((product, index) => (
-            <tr key={index} className="border-t border-gray-200">
+            <tr key={index.toString()} className="border-t border-gray-200">
               <td className="py-2 px-4">{index +1}</td>
               <td className="py-2 px-4">{product.productTitle}</td>
               <td className="py-2 px-4">{product.productName}</td>

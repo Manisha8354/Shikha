@@ -10,6 +10,7 @@ import UserContextProvider from '../context/UserContextProvider';
 import UserContext from '../context/UserContext';
 import Navbar from './Navbar/Navbar';
 import Footer from './Footer/Footer';
+const API_URL = import.meta.env.VITE_API_URL
 const ProductPage = () => {
   let { code } = useParams();
   let navigation = useNavigate()
@@ -23,7 +24,7 @@ const ProductPage = () => {
 let {auth} = useContext(UserContext)
   async function getProfile() {
     try {
-      let result = await axios.get(`https://actl.co.in/sikha/getProductByCode/${code}`);
+      let result = await axios.get(`${API_URL}/getProductByCode/${code}`);
       if (result) {
         let x = '';
         for (let i = 1; i <= result.data[0].productRating; i++) {
@@ -37,7 +38,7 @@ let {auth} = useContext(UserContext)
           return item;
         });
         setData(final[0]);
-        setMainImage(`https://actl.co.in/sikha_uploads/${final[0].productImages[0]}`); // Set the main image initially
+        setMainImage(`${API_URL}/sikha_uploads/${final[0].productImages[0]}`); // Set the main image initially
       }
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -65,7 +66,7 @@ let {auth} = useContext(UserContext)
 
   async function getAllProfile() {
     try {
-      let result = await axios.get('https://actl.co.in/sikha/getProduct');
+      let result = await axios.get(`${API_URL}/sikha/getProduct`);
       if(result){
         const final = result.data.map(item => {
           if (typeof item.productImages === 'string') {
@@ -90,7 +91,7 @@ let {auth} = useContext(UserContext)
       let cartdata = {...data, productImages:mainImage}
     let user =  auth.username.email.split('@')[0] + '_sikha_cart'
     // console.log(user)
-    await axios.post(`https://actl.co.in/sikha/cartSave/${user}`,cartdata)
+    await axios.post(`${API_URL}/cartSave/${user}`,cartdata)
     navigation('/cart')
     }else{
       navigation('/signinsignup')
@@ -106,7 +107,7 @@ let {auth} = useContext(UserContext)
       let cartdata = {...data, productImages:mainImage}
     let user =  auth.username.email.split('@')[0] + '_sikha_wish'
     // console.log(user)
-    await axios.post(`https://actl.co.in/sikha/wishSave/${user}`,cartdata)
+    await axios.post(`${API_URL}/wishSave/${user}`,cartdata)
     navigation('/wishlist')
     }else{
       navigation('/signinsignup')
@@ -124,7 +125,7 @@ const handleCheckout = async (item) => {
     productTitle: item.productTitle,
     productPrice: item.productPrice,
     productDiscount: item.productDiscount,
-    productImages: `https://actl.co.in/sikha_uploads/${item.productImages[0]}`,
+    productImages: `${API_URL}/sikha_uploads/${item.productImages[0]}`,
     quantity: "1",  // Include updated quantity
     totalPrice: Math.ceil(item.productPrice - (item.productPrice * item.productDiscount) / 100),  // Calculate the total price for this item
   }]
@@ -152,9 +153,9 @@ const handleCheckout = async (item) => {
                 <img
                   key={index}
                   className="w-12 h-12 md:w-16 md:h-16 object-cover border cursor-pointer"
-                  src={`https://actl.co.in/sikha_uploads/${image}`}
+                  src={`${API_URL}/sikha_uploads/${image}`}
                   alt={`Product Thumbnail ${index + 1}`}
-                  onClick={() => handleThumbnailClick(`https://actl.co.in/sikha_uploads/${image}`)} // Set image as main on click
+                  onClick={() => handleThumbnailClick(`${API_URL}/sikha_uploads/${image}`)} // Set image as main on click
                 />
               ))}
             </div>
@@ -240,7 +241,7 @@ const handleCheckout = async (item) => {
         {product.productImages.map(slide => (
           <SwiperSlide key={slide.id}>
             <img
-              src={`https://actl.co.in/sikha_uploads/${slide}`}
+              src={`${API_URL}/sikha_uploads/${slide}`}
               alt={`Slide ${slide.id}`}
               className="w-full h-72 object-fit"
             />

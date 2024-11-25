@@ -7,6 +7,7 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import { Navigation, Pagination, Autoplay } from 'swiper/modules';
 import UserContextProvider from '../context/UserContextProvider';
+const API_URL = import.meta.env.VITE_API_URL
 const CategoryFilterPage = () => {
   let { categoryName, subcategoryName } = useParams();
   const [data, setData] = useState('');
@@ -18,7 +19,7 @@ const CategoryFilterPage = () => {
 
   async function getProfile() {
     try {
-      let result = await axios.get(`https://actl.co.in/sikha/getProduct`);
+      let result = await axios.get(`${API_URL}/getProduct`);
       if (result) {
         let x = '';
         for (let i = 1; i <= result.data[0].productRating; i++) {
@@ -34,9 +35,9 @@ const CategoryFilterPage = () => {
         let responce = final.filter((item) => {
           return (item.productCategory == categoryName) && (item.productSubCategory == subcategoryName)
         })
-        console.log(responce)
+        // console.log(responce)
         setData(responce);
-        setMainImage(`https://actl.co.in/${final[0].productImages[0]}`); // Set the main image initially
+        setMainImage(`${API_URL}/${final[0].productImages[0]}`); // Set the main image initially
       }
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -64,7 +65,7 @@ const CategoryFilterPage = () => {
 
   async function getAllProfile() {
     try {
-      let result = await axios.get('https://actl.co.in/sikha/getProduct');
+      let result = await axios.get(`${API_URL}/getProduct`);
       if (result) {
         const final = result.data.map(item => {
           if ((typeof item.productImages === 'string') && (typeof item.productSize === 'string')) {
@@ -116,7 +117,7 @@ const CategoryFilterPage = () => {
                 {product.productImages.map(slide => (
                   <SwiperSlide key={slide.id}>
                     <img
-                      src={`https://actl.co.in/sikha_uploads/${slide}`}
+                      src={`${API_URL}/sikha_uploads/${slide}`}
                       alt={`Slide ${slide.id}`}
                       className="w-full h-72 object-fit"
                     />

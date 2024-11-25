@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { FaUserCircle } from 'react-icons/fa'; 
-
+const API_URL = import.meta.env.VITE_API_URL
 export default function AdminNav() {
     const [isOpen, setIsOpen] = useState(false);
 

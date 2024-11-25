@@ -2,10 +2,12 @@ import axios from 'axios';
 import React, { useContext, useState } from 'react';
 import UserContext from '../context/UserContext';
 import { useNavigate } from 'react-router-dom';
-
+const API_URL = import.meta.env.VITE_API_URL
 const SignInSignUpModal = () => {
   const [isLogin, setIsLogin] = useState(true); // Toggle between login and sign up
   const [loading, setLoading] = useState(false); // Toggle between login and sign up
+  const [showPassword, setShowPassword] = useState(false); // Toggle password visibility
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   let navigation = useNavigate()
   let {userLogin, setFlag} = useContext(UserContext)
   const [formData, setFormData] = useState({
@@ -67,7 +69,7 @@ const SignInSignUpModal = () => {
           }
         } else {
           // Handle signup submission
-          await axios.post('https://actl.co.in/sikha/userSave', formData)
+          await axios.post(`${API_URL}/userSave`, formData)
           console.log('Sign up data:', formData);
           setIsLogin(true)
         }
@@ -115,16 +117,25 @@ const SignInSignUpModal = () => {
           </div>
 
           {/* Password field */}
-          <div>
+          <div >
             <label className="block text-black font-medium">Password</label>
+            <div className='d-flex'>
             <input
-              type="password"
+              type={showPassword ? 'text' : 'password'}
               name="password"
               value={formData.password}
               onChange={handleChange}
               className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black"
               placeholder="Enter your password"
             />
+            <span
+              className=" right-3 top-9 cursor-pointer "
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? 'Hide' : 'Show'}
+            </span>
+            </div>
+           
             {errors.password && <p className="text-red-500 text-sm">{errors.password}</p>}
           </div>
 
@@ -132,14 +143,23 @@ const SignInSignUpModal = () => {
           {!isLogin && (
             <div>
               <label className="block text-black font-medium">Confirm Password</label>
+              <div className='d-flex'>
               <input
-                type="password"
+                type={showConfirmPassword ? 'text' : 'password'}
                 name="confirmPassword"
                 value={formData.confirmPassword}
                 onChange={handleChange}
                 className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black"
                 placeholder="Confirm your password"
               />
+              <span
+                className=" right-3 top-9 cursor-pointer "
+                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+              >
+                {showConfirmPassword ? 'Hide' : 'Show'}
+              </span>
+              </div>
+             
               {errors.confirmPassword && (
                 <p className="text-red-500 text-sm">{errors.confirmPassword}</p>
               )}

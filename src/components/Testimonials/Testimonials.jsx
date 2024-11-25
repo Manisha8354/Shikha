@@ -88,9 +88,10 @@ export default function Testimonials() {
 
         {/* Testimonial cards */}
         <div data-aos="zoom-in">
-          <Slider {...settings}>
+          <Slider {...settings} >
+            
             {TestimonialData.map((data) => (
-              <div className="my-6">
+              <div className="my-6"    key={data.id.toString()}>
                 <div
                   key={data.id}
                   className="flex flex-col gap-4 shadow-lg py-8 px-6 mx-4 rounded-xl dark:bg-gray-800 bg-primary/10 relative"

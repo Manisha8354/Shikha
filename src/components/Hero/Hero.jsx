@@ -4,7 +4,7 @@ import Image2 from "../../assets/hero/banner1.png";
 import Image3 from "../../assets/hero/sale.png";
 import Slider from "react-slick";
 import axios from "axios";
-
+const API_URL = import.meta.env.VITE_API_URL
 const ImageList = [
   {
     id: 1,
@@ -43,9 +43,9 @@ export default function Hero({ handleOrderPopup }) {
 
   async function getProfile() {
     try {
-      let result = await axios.get('https://actl.co.in/sikha/getbanner') || '';
-    //   console.log(result)
-      if(result){
+      let result = await axios.get(`${API_URL}/getbanner`) || '';
+      //   console.log(result)
+      if (result) {
         setData(result.data);
       }
     } catch (error) {
@@ -58,18 +58,19 @@ export default function Hero({ handleOrderPopup }) {
   // console.log(data)
 
   return (
-  
-      
-      <div className="w-full  mx-auto">
-        <Slider {...settings}>
-          { data &&data.map((item) => (
-       <img
-       src={`https://actl.co.in/sikha_uploads/${item.banner}`}
-       alt={`Slide ${item.id}`}
-       className="w-full h-40 md:h-96 lg:h-96 object-fit"
-     />
-          ))}
-        </Slider>
-      </div>
+
+
+    <div className="w-full  mx-auto">
+      <Slider {...settings}>
+        {data && data.map((item) => (
+          <img
+          key={item.id.toString()}
+            src={`${API_URL}/sikha_uploads/${item.banner}`}
+            alt={`Slide ${item.id}`}
+            className="w-full h-40 md:h-96 lg:h-96 object-fit"
+          />
+        ))}
+      </Slider>
+    </div>
   );
 }

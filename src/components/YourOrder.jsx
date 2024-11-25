@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import UserContext from '../context/UserContext'
 import axios from 'axios'
 import { Link, useNavigate } from 'react-router-dom'
-
+const API_URL = import.meta.env.VITE_API_URL
 export default function YourOrder() {
   let { auth } = useContext(UserContext)
   let [data, setData] = useState([])
@@ -12,7 +12,7 @@ export default function YourOrder() {
   async function getData() {
     if (auth.username) {
       let user = auth.username.email
-      let result = await axios.get(`https://actl.co.in/sikha/getOrderByEmail/${user}`)
+      let result = await axios.get(`${API_URL}/getOrderByEmail/${user}`)
       setData(result.data)
     }
   }

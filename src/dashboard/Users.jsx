@@ -3,13 +3,13 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import AdminNav from './AdminNav';
 import AdminSidebar from './AdminSidebar';
-
+const API_URL = import.meta.env.VITE_API_URL
 export default function Users() {
   const [data, setData] = useState([]);
 
   async function getProfile() {
     try {
-      let result = await axios.get('https://actl.co.in/sikha/userGet');
+      let result = await axios.get(`${API_URL}/userGet`);
       if(result){
         setData(result.data);
       }
@@ -26,7 +26,7 @@ export default function Users() {
   const handleDelete = async (id) => {
     let flag = confirm("Are you Sure to Delete")
     if(flag){
-     await axios.delete(`https://actl.co.in/sikha/deleteProduct/${id}`);
+     await axios.delete(`${API_URL}/deleteProduct/${id}`);
      getProfile()
     }
   };
@@ -34,7 +34,7 @@ export default function Users() {
   async function handleUpdate(data, id) {
     let flag = confirm("Are U sure to Change Status")
     if(flag){
-    await axios.put(`https://actl.co.in/sikha/updateOrder/${id}`, {
+    await axios.put(`${API_URL}/updateOrder/${id}`, {
         'status':data
     });
     getProfile()

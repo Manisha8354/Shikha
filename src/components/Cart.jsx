@@ -6,6 +6,7 @@ import UserContextProvider from '../context/UserContextProvider'
 import Navbar from './Navbar/Navbar'
 import Footer from './Footer/Footer'
 import not from '../assets/not-found.png'
+const API_URL = import.meta.env.VITE_API_URL
 export default function Cart() {
   let {auth} = useContext(UserContext)
   let [data, setData] = useState([])
@@ -15,7 +16,7 @@ export default function Cart() {
   async function getData(){
       if(auth.username){
         let user = auth.username.email.split('@')[0]+'_sikha_cart'
-        let result = await axios.get(`https://actl.co.in/sikha/getCart/${user}`)
+        let result = await axios.get(`${API_URL}/getCart/${user}`)
         // console.log(result)
         let initialQuantities = {}
         result.data.forEach(item => {
@@ -34,7 +35,7 @@ export default function Cart() {
     let flag = confirm("are u sure to delete")
     if(flag){
         let user = auth.username.email.split('@')[0]+'_sikha_cart'
-    await axios.delete(`https://actl.co.in/sikha/deleteCart/${id}/${user}`)
+    await axios.delete(`${API_URL}/deleteCart/${id}/${user}`)
     getData()
     }
   }
@@ -84,7 +85,7 @@ export default function Cart() {
             <div class="mx-auto w-full flex-none lg:max-w-2xl xl:max-w-4xl">
               <div class="space-y-6">
                 {data && data.map((item) => (
-                  <div key={item.id} class="rounded-lg border border-gray-200 bg-white p-4 shadow-sm dummy:border-gray-700 dummy:bg-gray-800 md:p-6">
+                  <div key={item.id.toString()} class="rounded-lg border border-gray-200 bg-white p-4 shadow-sm dummy:border-gray-700 dummy:bg-gray-800 md:p-6">
                     <div class="space-y-4 md:flex md:items-center md:justify-between md:gap-6 md:space-y-0">
                       <a href="#" class="shrink-0 md:order-1">
                         <img class="h-20 w-20 dummy:hidden" src={`${item.productImages}`} alt="product image" />

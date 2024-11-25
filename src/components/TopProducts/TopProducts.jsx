@@ -5,7 +5,7 @@ import Img3 from "../../assets/shirt/myfoto2.jfif";
 import { FaStar } from "react-icons/fa";
 import axios from "axios";
 import { Link } from "react-router-dom";
-
+const API_URL = import.meta.env.VITE_API_URL
 const ProductsData = [
   {
     id: 1,
@@ -32,7 +32,7 @@ const ProductsData = [
 export default function TopProducts({handleOrderPopup}){
   const [subcategory, setsubCategory] = useState([]);
   async function getsubCategory() {
-    let result = await axios.get('https://actl.co.in/sikha/subcategoryget')
+    let result = await axios.get(`${API_URL}/subcategoryget`)
     setsubCategory(result.data)
     // console.log(result)
 }
@@ -66,7 +66,7 @@ useEffect(() => {
       {/* image section */}
       <div className="h-[100px]">
         <img
-          src={`https://actl.co.in/sikha_uploads/${data.subcategoryImage}`}
+          src={`${API_URL}/sikha_uploads/${data.subcategoryImage}`}
           alt=""
           className={`block mx-auto transform -translate-y-20 group-hover:scale-105 duration-300 drop-shadow-md rounded-md w-[120px] h-[150px]`}
         />

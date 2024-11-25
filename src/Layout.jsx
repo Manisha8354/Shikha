@@ -22,9 +22,6 @@ export default function Layout() {
   }, []);
 
 
-  console.log('Environment:', import.meta.env.VITE_ENV);
-  console.log('API URL:', import.meta.env.VITE_API_URL);
-  
   return (
     <UserContextProvider>
       <Navbar/>

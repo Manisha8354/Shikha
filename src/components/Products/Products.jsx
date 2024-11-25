@@ -56,20 +56,22 @@ const ProductsData = [
   },
 ];
 
+const API_URL = import.meta.env.VITE_API_URL
+
 export default function Products() {
   const [data, setData] = useState([]);
   const [mainImage, setMainImage] = useState(''); // For the main image display
-  let {auth} = useContext(UserContext)
-let navigation = useNavigate()
+  let { auth } = useContext(UserContext)
+  let navigation = useNavigate()
   async function getProfile() {
     try {
-      let result = await axios.get('https://actl.co.in/sikha/getProduct');
-      if(result){
+      let result = await axios.get(`${API_URL}/getProduct`);
+      if (result) {
         const final = result.data.map(item => {
           if ((typeof item.productImages === 'string') && (typeof item.productSize === 'string')) {
-            return { ...item, productImages: JSON.parse(item.productImages),productSize: JSON.parse(item.productSize)  };
-          }   
-           return item;
+            return { ...item, productImages: JSON.parse(item.productImages), productSize: JSON.parse(item.productSize) };
+          }
+          return item;
         });
         // let finalData = final.filter((item)=> item.productSubCategory == filterData)
         setData(final)
@@ -85,42 +87,42 @@ let navigation = useNavigate()
     getProfile();
   }, []);
 
-  async function addCart(data){
-   
+  async function addCart(data) {
+
     // if(size){
-      if(auth.username){
-        let cartdata = {...data,productImages:`https://actl.co.in/sikha_uploads/${data.productImages[0]}`}
-      let user =  auth.username.email.split('@')[0] + '_sikha_cart'
+    if (auth.username) {
+      let cartdata = { ...data, productImages: `${API_URL}/sikha_uploads/${data.productImages[0]}` }
+      let user = auth.username.email.split('@')[0] + '_sikha_cart'
       // console.log(user)
-      await axios.post(`https://actl.co.in/sikha/cartSave/${user}`,cartdata)
+      await axios.post(`${API_URL}/cartSave/${user}`, cartdata)
       navigation('/cart')
-      }else{
-        navigation('/signinsignup')
-      }
-      // console.log(cartdata)
+    } else {
+      navigation('/signinsignup')
+    }
+    // console.log(cartdata)
     // }else{
     //   alert("Please Select Product-Size to AddCart")
     // }
-    }
-   async function addWish(data){
+  }
+  async function addWish(data) {
     // console.log(data.productImages[0])
     // setMainImage(`https://actl.co.in/sikha_uploads/${data.productImages[0]}`);
     // if(size){
-      if(auth.username){
-        let cartdata = {...data, productImages:`https://actl.co.in/sikha_uploads/${data.productImages[0]}`}
-        // console.log(cartdata)
-      let user =  auth.username.email.split('@')[0] + '_sikha_wish'
-      // console.log(user)
-      await axios.post(`https://actl.co.in/sikha/wishSave/${user}`,cartdata)
-      navigation('/wishlist')
-      }else{
-        navigation('/signinsignup')
-      }
+    if (auth.username) {
+      let cartdata = { ...data, productImages: `${API_URL}/sikha_uploads/${data.productImages[0]}` }
       // console.log(cartdata)
+      let user = auth.username.email.split('@')[0] + '_sikha_wish'
+      // console.log(user)
+      await axios.post(`${API_URL}/wishSave/${user}`, cartdata)
+      navigation('/wishlist')
+    } else {
+      navigation('/signinsignup')
+    }
+    // console.log(cartdata)
     // }else{
     //   alert("Please Select Product-Size to AddCart")
     // }
-    }
+  }
   // console.log(data)
   return (
     <div className="mt-14 mb-12">
@@ -139,21 +141,22 @@ let navigation = useNavigate()
         </div>
         {/* Body section */}
         <div>
-        <div className="flex gap-10 flex-wrap justify-center">
-        {data && data.map((product, index) => (
-          <div key={index} className="border w-72 p-4 rounded-lg" to={`/productpage/${product.productCode}`}>
-            <Link to={`/productpage/${product.productCode}`}>
-            <Swiper
-        modules={[Navigation, Pagination, Autoplay]}
-        spaceBetween={50}
-        slidesPerView={1}
-        navigation
-        pagination={{ clickable: true }}
-        autoplay={{ delay: 2000 }}
-        loop={true}
-      >
-         <style>
-    {`
+          <div className="flex gap-10 flex-wrap justify-center">
+            {data && data.map((product, index) => (
+              <div key={product.id.toString()} className="border w-72 p-4 rounded-lg" to={`/productpage/${product.productCode}`}>
+                <Link key={product.id.toString()} to={`/productpage/${product.productCode}`}>
+                  <Swiper
+                    key={product.id.toString()}
+                    modules={[Navigation, Pagination, Autoplay]}
+                    spaceBetween={50}
+                    slidesPerView={1}
+                    navigation
+                    pagination={{ clickable: true }}
+                    autoplay={{ delay: 2000 }}
+                    loop={true}
+                  >
+                    <style key={product.id.toString()} >
+                      {`
       .swiper-button-next, .swiper-button-prev {
         color: gray; /* Your desired color */
       }
@@ -161,32 +164,33 @@ let navigation = useNavigate()
         font-size: 20px; /* Optional: Adjust the arrow size */
       }
     `}
-  </style>
-        {product.productImages.map(slide => (
-          <SwiperSlide key={slide.id}>
-            <img
-              src={`https://actl.co.in/sikha_uploads/${slide}`}
-              alt={`Slide ${slide.id}`}
-              className="w-full h-72 object-fit"
-            />
-          </SwiperSlide>
-        ))}
-      </Swiper>
-            <h2 className="text-lg font-semibold">{product.productTitle}</h2>
-            <p className="text-red-500">{Math.ceil(product.productPrice -((product.productPrice * product.productDiscount)/100))} Rs.</p>
-            <p className="line-through text-gray-400">{product.productPrice} Rs.</p>
-            </Link>
-            <div className="flex flex-col sm:flex-row gap-4 mt-4">
-              <button onClick={()=>addCart(product)} className="bg-yellow-500 hover:bg-yellow-600 text-white py-2 px-2 text-sm rounded-lg w-full sm:w-auto">
-                Add to Cart
-              </button>
-              <button onClick={()=>addWish(product)} className="bg-blue-500 hover:bg-blue-600 text-white py-1 px-2 text-sm rounded-lg w-full sm:w-auto">
-                Add to Wishlist
-              </button>
-            </div>
+                    </style>
+                    {product.productImages.map(slide => (
+                      <SwiperSlide key={slide.id}>
+                        <img
+                          src={`${API_URL}/sikha_uploads/${slide}`}
+                          alt={`Slide ${slide.id}`}
+                          key={slide.id}
+                          className="w-full h-72 object-fit"
+                        />
+                      </SwiperSlide>
+                    ))}
+                  </Swiper>
+                  <h2 className="text-lg font-semibold">{product.productTitle}</h2>
+                  <p className="text-red-500">{Math.ceil(product.productPrice - ((product.productPrice * product.productDiscount) / 100))} Rs.</p>
+                  <p className="line-through text-gray-400">{product.productPrice} Rs.</p>
+                </Link>
+                <div className="flex flex-col sm:flex-row gap-4 mt-4">
+                  <button onClick={() => addCart(product)} className="bg-yellow-500 hover:bg-yellow-600 text-white py-2 px-2 text-sm rounded-lg w-full sm:w-auto">
+                    Add to Cart
+                  </button>
+                  <button onClick={() => addWish(product)} className="bg-blue-500 hover:bg-blue-600 text-white py-1 px-2 text-sm rounded-lg w-full sm:w-auto">
+                    Add to Wishlist
+                  </button>
+                </div>
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
           {/* <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 place-items-center gap-5">
 
             {ProductsData.map((data) => (

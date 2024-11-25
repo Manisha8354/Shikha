@@ -6,7 +6,7 @@ import UserContextProvider from '../context/UserContextProvider'
 import Navbar from './Navbar/Navbar'
 import Footer from './Footer/Footer'
 import not from '../assets/not-found.png'
-
+const API_URL = import.meta.env.VITE_API_URL
 export default function Wishlist() {
   let {auth} = useContext(UserContext)
   let [data, setData] = useState([])
@@ -16,7 +16,7 @@ export default function Wishlist() {
   async function getData(){
       if(auth.username){
         let user = auth.username.email.split('@')[0]+'_sikha_wish'
-        let result = await axios.get(`https://actl.co.in/sikha/getWish/${user}`)
+        let result = await axios.get(`${API_URL}/getWish/${user}`)
         // console.log(result)
         let initialQuantities = {}
         result.data.forEach(item => {
@@ -35,7 +35,7 @@ export default function Wishlist() {
     let flag = confirm("are u sure to delete")
     if(flag){
         let user = auth.username.email.split('@')[0]+'_sikha_wish'
-    await axios.delete(`https://actl.co.in/sikha/deleteCart/${id}/${user}`)
+    await axios.delete(`${API_URL}/deleteCart/${id}/${user}`)
     getData()
     }
   }

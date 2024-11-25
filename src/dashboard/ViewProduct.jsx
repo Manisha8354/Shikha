@@ -7,7 +7,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import AdminNav from './AdminNav';
 import AdminSidebar from './AdminSidebar';
 // import UserContext from '../context/UserContext';
-
+const API_URL = import.meta.env.VITE_API_URL
 export default function ViewProduct() {
   let {id} = useParams()
   const [data, setData] = useState([]);
@@ -18,7 +18,7 @@ export default function ViewProduct() {
 
   async function getpropertylist() {
    
-    let result = await axios.get(`https://actl.co.in/sikha/getProduct/${id}`);
+    let result = await axios.get(`${API_URL}/getProduct/${id}`);
 
     const final = result.data.map(item => {
       if ((typeof item.productImages === 'string') && (typeof item.productSize === 'string')) {
@@ -87,7 +87,7 @@ export default function ViewProduct() {
                 <div className='box shadow' key={index}>
                   <div className=' relative w-full h-[500px]'>
                     <img
-                      src={`https://actl.co.in/sikha_uploads/${data.productImages[currentImageIndex]}`}
+                      src={`${API_URL}/sikha_uploads/${data.productImages[currentImageIndex]}`}
                       alt={`productImages ${currentImageIndex + 1}`}
                       // className={`carousel-image ${currentImageIndex === index ? 'active' : ''} w-full h-full object-cover absolute top-0 left-0`}
                       className={`carousel-image w-full h-full object-cover absolute top-0 left-0`}

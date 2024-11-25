@@ -3,13 +3,13 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import AdminNav from './AdminNav';
 import AdminSidebar from './AdminSidebar';
-
+const API_URL = import.meta.env.VITE_API_URL
 export default function Category() {
   const [data, setData] = useState([]);
 
-  async function getProfile() {
+  async function getCategory() {
     try {
-      let result = await axios.get('https://actl.co.in/sikha/categoryget');
+      let result = await axios.get(`${API_URL}/categoryget`);
       setData(result.data);
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -17,15 +17,15 @@ export default function Category() {
   }
 
   useEffect(() => {
-    getProfile();
+    getCategory();
   }, []); // Empty dependency array to fetch data only once
 
   // Handler functions
   const handleDelete = async (id) => {
     let flag = confirm("Are you Sure to Delete")
     if(flag){
-     await axios.delete(`https://actl.co.in/sikha/categorydelete/${id}`);
-      getProfile()
+     await axios.delete(`${API_URL}/categorydelete/${id}`);
+      getCategory();
     }
   };
 

@@ -18,11 +18,11 @@ const BannerImg = {
   height: "100%",
   width: "100%",
 };
-
+const API_URL = import.meta.env.VITE_API_URL
 export default function Footer() {
   const [category, setCategory] = useState([]);
   async function getCategory() {
-    let result = await axios.get('https://actl.co.in/sikha/categoryget')
+    let result = await axios.get(`${API_URL}/categoryget`)
     setCategory(result.data)
   }
   useEffect(() => {
@@ -64,7 +64,7 @@ export default function Footer() {
                   </li>
                   {category &&
                     category.map((item) => (
-                      <li>
+                      <li key={item.id.toString()}>
                         <a href={`/view/${item.categoryName}`} className="cursor-pointer hover:text-primary hover:translate-x-1 duration-300 text-gray-200">{item.categoryName}</a>
                       </li>
                     ))

@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import AdminNav from './AdminNav';
 import AdminSidebar from './AdminSidebar';
-
+const API_URL = import.meta.env.VITE_API_URL
 const EditPopup = () => {
     const { id } = useParams(); // Assuming the product ID is in the URL
     const navigate = useNavigate();
@@ -18,14 +18,14 @@ const EditPopup = () => {
     useEffect(() => {
         const fetchProductDetails = async () => {
             try {
-                const response = await axios.get(`https://actl.co.in/sikha/viewPopup`);
+                const response = await axios.get(`${API_URL}/viewPopup`);
                 const data = response.data[0];
 
                 // Populate form with product data
                 setData({
                     heading: data.heading,
                     detail: data.detail,
-                    status: data.status,
+                    status: data?.status,
                 });
 
             } catch (error) {
@@ -43,7 +43,7 @@ const EditPopup = () => {
 
     
         try {
-            await axios.put(`https://actl.co.in/sikha/updatePopup/${id}`, data);
+            await axios.put(`${API_URL}/updatePopup/${id}`, data);
 
             // Navigate to product list after update
             navigate('/admin/popup');

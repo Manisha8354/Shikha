@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import AdminNav from './AdminNav';
 import AdminSidebar from './AdminSidebar';
-
+const API_URL = import.meta.env.VITE_API_URL
 export default function AddCategory() {
     let navigation = useNavigate()
   const [data, setData] = useState({
@@ -14,7 +14,7 @@ export default function AddCategory() {
   async function saveCategory(e) {
     e.preventDefault()
     try {
-      let result = await axios.post('https://actl.co.in/sikha/categorysave', data);
+      let result = await axios.post(`${API_URL}/categorysave`, data);
       navigation('/admin/category')
     } catch (error) {
       console.error('Error fetching data:', error);

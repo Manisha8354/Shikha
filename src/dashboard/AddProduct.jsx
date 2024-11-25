@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AdminNav from './AdminNav';
 import AdminSidebar from './AdminSidebar';
-
+const API_URL = import.meta.env.VITE_API_URL
 const AddProduct = () => {
     let navigation = useNavigate()
     let [loading, setLoading] = useState(false)
@@ -77,7 +77,7 @@ const AddProduct = () => {
 
         try {
             setLoading(true)
-            await axios.post('https://actl.co.in/sikha/productSave', formData, {
+            await axios.post(`${API_URL}/productSave`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
@@ -92,12 +92,12 @@ const AddProduct = () => {
     };
 
     async function getCategory() {
-        let result = await axios.get('https://actl.co.in/sikha/categoryget')
+        let result = await axios.get(`${API_URL}/categoryget`)
         setCategory(result.data)
         // console.log(result)
     }
     async function getsubCategory() {
-        let result = await axios.get('https://actl.co.in/sikha/subcategoryget')
+        let result = await axios.get(`${API_URL}/subcategoryget`)
         setsubCategory(result.data)
         // console.log(result)
     }

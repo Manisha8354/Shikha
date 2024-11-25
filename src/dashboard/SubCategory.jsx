@@ -3,13 +3,13 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import AdminNav from './AdminNav';
 import AdminSidebar from './AdminSidebar';
-
+const API_URL = import.meta.env.VITE_API_URL
 export default function SubCategory() {
   const [data, setData] = useState([]);
 
   async function getProfile() {
     try {
-      let result = await axios.get('https://actl.co.in/sikha/subcategoryget');
+      let result = await axios.get(`${API_URL}/subcategoryget`);
       setData(result.data);
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -24,7 +24,7 @@ console.log(data)
   const handleDelete = async (id) => {
     let flag = confirm("Are you Sure to Delete")
     if(flag){
-     await axios.delete(`https://actl.co.in/sikha/subcategorydelete/${id}`);
+     await axios.delete(`${API_URL}/subcategorydelete/${id}`);
       getProfile()
     }
   };
@@ -63,7 +63,7 @@ console.log(data)
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                       {item.subcategoryName}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><img src={`https://actl.co.in/sikha_uploads/${item.subcategoryImage}`} alt="" className='h-20 w-20'/></td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><img src={`${API_URL}/sikha_uploads/${item.subcategoryImage}`} alt="" className='h-20 w-20'/></td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                       <button
                         onClick={() => handleDelete(item.id)}

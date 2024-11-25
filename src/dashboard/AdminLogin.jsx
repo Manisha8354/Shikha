@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import UserContext from '../context/UserContext';
-
+const API_URL = import.meta.env.VITE_API_URL
 const AdminLogin = () => {
   const [isLogin, setIsLogin] = useState(true); // Toggle between login and sign up
   const [loading, setLoading] = useState(false); // Toggle between login and sign up
@@ -43,7 +43,7 @@ const AdminLogin = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (validate()) {
-        let result = await axios.post('https://actl.co.in/sikha/adminlogin', formData)
+        let result = await axios.post(`${API_URL}/adminlogin`, formData)
         // console.log(result)
       if(result.data == true) {
           setAdminFlag(true)
